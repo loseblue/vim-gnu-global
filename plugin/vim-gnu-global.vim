@@ -56,14 +56,16 @@ endfunc
 if s:running_windows
     function! FindGtags(f)
         let dir = fnamemodify(a:f, ':p:h')
+		let backup = 0
         while 1
             let tmp = dir . '/GTAGS'
             if filereadable(tmp)
                 exe 'cs add ' . tmp . ' ' . dir
                 break
-            elseif dir == '/'
+            elseif backup == tmp
                 break
             endif
+			backup = tmp
 
             let dir = fnamemodify(dir, ":h")
         endwhile
