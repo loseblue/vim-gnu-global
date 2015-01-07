@@ -13,7 +13,7 @@ if exists("loaded_gnu_global")
     finish
 endif
 if (v:progname == "ex")
-   finish
+    finish
 endif
 let loaded_gnu_global = 1
 
@@ -25,23 +25,6 @@ let s:running_windows = has("win16") || has("win32") || has("win64")
 au VimEnter * call VimEnterCallback()
 au BufAdd *.[ch] call FindGtags(expand('<afile>'))
 au BufWritePost *.[ch] call UpdateGtags(expand('<afile>'))
-
-function! FindFiles(pat, ...)
-    let path = ''
-    for str in a:000
-        let path .= str . ','
-    endfor
-
-    if path == ''
-        let path = &path
-    endif
-
-    echo 'finding...'
-    redraw
-    call append(line('$'), split(globpath(path, a:pat), '\n'))
-    echo 'finding...done!'
-    redraw
-endfunc
 
 function! VimEnterCallback()
     for f in argv()
@@ -56,7 +39,7 @@ endfunc
 if s:running_windows
     function! FindGtags(f)
         let dir = fnamemodify(a:f, ':p:h')
-		let backup = 0
+        let backup = 0
         while 1
             let tmp = dir . '/GTAGS'
             if filereadable(tmp)
@@ -65,7 +48,7 @@ if s:running_windows
             elseif backup == tmp
                 break
             endif
-			backup = tmp
+            backup = tmp
 
             let dir = fnamemodify(dir, ":h")
         endwhile
